@@ -1,37 +1,3 @@
-resource "google_compute_instance" "default" {
-  name         = "test"
-  machine_type = "n1-standard-1"
-  zone         = "europe-west1-b"
-
-  tags = ["foo", "bar"]
-
-  boot_disk {
-    initialize_params {
-      image = "debian-cloud/debian-8"
-    }
-  }
-
-  // Local SSD disk
-  scratch_disk {
-  }
-
-  network_interface {
-    network = "default"
-
-    access_config {
-      // Ephemeral IP
-    }
-  }
-
-  metadata {
-    foo = "bar"
-  }
-
-  service_account {
-    scopes = ["userinfo-email", "compute-ro", "storage-ro"]
-  }
-}
-
 resource "random_string" "uaa-password" {
   length = 16
   special = false
@@ -74,11 +40,6 @@ resource "google_sql_database_instance" "cf-db-instance" {
     tier = "db-n1-standard-2"
     ip_configuration {
       ipv4_enabled = "true"
-
-      //authorized_networks = [
-      //  { value = "${module.terraform-gcp-natgateway.nat-gateway-ips["0"]}" },
-      //  { value = "${module.terraform-gcp-natgateway.nat-gateway-ips["1"]}" },
-      //]
     }
   }
 }
@@ -212,5 +173,3 @@ output "silk_controller-password" {
 output "locket-password" {
   value = "${random_string.locket-password.result}"
 }
-
-
