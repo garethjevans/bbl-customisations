@@ -40,6 +40,10 @@ resource "google_sql_database_instance" "cf-db-instance" {
     tier = "db-n1-standard-2"
     ip_configuration {
       ipv4_enabled = "true"
+
+      authorized_networks = [
+        { value = "0.0.0.0/0" },
+      ]
     }
   }
 }
