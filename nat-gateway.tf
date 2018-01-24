@@ -4,4 +4,5 @@ module "terraform-gcp-natgateway" {
   region = "${var.region}"
   network = "${var.env_id}-network"
   subnetwork = "${var.env_id}-subnet"
+  route-tag = "${var.env_id}-internal"
 }
