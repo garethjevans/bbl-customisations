@@ -1,5 +1,5 @@
-module "nat-gateway" {
-  source  = "GoogleCloudPlatform/nat-gateway/google"
-  version = "1.1.2"
+module "terraform-gcp-natgateway" {
+  source = "github.com/migs/terraform-gcp-natgateway"
+  project = "${var.project}"
   region = "${var.region}"
 }
