@@ -4,7 +4,7 @@ module "terraform-gcp-natgateway" {
   region = "${var.region}"
   network = "${var.env_id}-network"
   subnetwork = "${var.env_id}-subnet"
-  route-tag = "${var.env_id}-internal"
+  route-tag = "no-ip"
   tags = ["nat", "${var.env_id}-internal"]
   nat-gateway-image = "ubuntu-1604-lts"
 }
