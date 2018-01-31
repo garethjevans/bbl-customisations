@@ -42,7 +42,7 @@ resource "google_sql_database_instance" "cf-db-instance" {
       ipv4_enabled = "true"
 
       authorized_networks = [
-        { value = "${module.terraform-gcp-natgateway.nat-gateway-ips["0"]}" },
+        { value = "0.0.0.0/0" },
       ]
     }
   }
