@@ -38,6 +38,8 @@ resource "google_sql_database_instance" "cf-db-instance" {
 
   settings {
     tier = "db-n1-standard-2"
+    disk_autoresize = "true"
+
     ip_configuration {
       ipv4_enabled = "true"
 
@@ -45,6 +47,36 @@ resource "google_sql_database_instance" "cf-db-instance" {
         { value = "0.0.0.0/0" },
       ]
     }
+
+    backup_configuration {
+      binary_log_enabled = "true"
+      enabled = "true"
+      start_time = "02:00"
+    }
+
+  }
+}
+
+resource "google_sql_database_instance" "cf-db-failover" {
+  region = "${var.region}"
+
+  master_instance_name = "${google_sql_database_instance.cf-db-instance.name}"
+  replica_configuration {
+    failover_target = "true"
+  }
+
+  settings {
+    tier = "db-n1-standard-2"
+    disk_autoresize = "true"
+
+    ip_configuration {
+      ipv4_enabled = "true"
+
+      authorized_networks = [
+        { value = "0.0.0.0/0" },
+      ]
+    }
+
   }
 }
 
