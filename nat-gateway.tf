@@ -7,4 +7,5 @@ module "terraform-gcp-natgateway" {
   route-tag = "no-ip"
   tags = ["nat", "${var.env_id}-internal"]
   nat-gateway-image = "ubuntu-1604-lts"
+  zones = "2"
 }
