@@ -35,6 +35,7 @@ resource "random_string" "locket-password" {
 
 resource "google_sql_database_instance" "cf-db-instance" {
   region = "${var.region}"
+  project = "${var.project_id}"
 
   settings {
     tier = "db-n1-standard-2"
@@ -59,6 +60,7 @@ resource "google_sql_database_instance" "cf-db-instance" {
 
 resource "google_sql_database_instance" "cf-db-failover" {
   region = "${var.region}"
+  project = "${var.project_id}"
 
   master_instance_name = "${google_sql_database_instance.cf-db-instance.name}"
   replica_configuration {
