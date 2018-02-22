@@ -61,6 +61,7 @@ resource "google_sql_database_instance" "cf-db-instance" {
 resource "google_sql_database_instance" "cf-db-failover" {
   region = "${var.region}"
   project = "${var.project_id}"
+  depends_on = ["google_sql_database_instance.cf-db-instance"]
 
   master_instance_name = "${google_sql_database_instance.cf-db-instance.name}"
   replica_configuration {
@@ -87,6 +88,7 @@ resource "google_sql_database" "uaa_db" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   charset = "utf8"
   collation = "utf8_general_ci"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 resource "google_sql_database" "cc_db" {
@@ -94,6 +96,7 @@ resource "google_sql_database" "cc_db" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   charset = "utf8"
   collation = "utf8_general_ci"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 resource "google_sql_database" "bbs_db" {
@@ -101,6 +104,7 @@ resource "google_sql_database" "bbs_db" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   charset = "utf8"
   collation = "utf8_general_ci"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 resource "google_sql_database" "routing_api_db" {
@@ -108,6 +112,7 @@ resource "google_sql_database" "routing_api_db" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   charset = "utf8"
   collation = "utf8_general_ci"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 resource "google_sql_database" "policy_server_db" {
@@ -115,6 +120,7 @@ resource "google_sql_database" "policy_server_db" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   charset = "utf8"
   collation = "utf8_general_ci"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 resource "google_sql_database" "silk_controller_db" {
@@ -122,6 +128,7 @@ resource "google_sql_database" "silk_controller_db" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   charset = "utf8"
   collation = "utf8_general_ci"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 resource "google_sql_database" "locket_db" {
@@ -129,6 +136,7 @@ resource "google_sql_database" "locket_db" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   charset = "utf8"
   collation = "utf8_general_ci"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 resource "google_sql_user" "uaa" {
@@ -136,6 +144,7 @@ resource "google_sql_user" "uaa" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   host = "%"
   password = "${random_string.uaa-password.result}"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 resource "google_sql_user" "cc" {
@@ -143,6 +152,7 @@ resource "google_sql_user" "cc" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   host = "%"
   password = "${random_string.cc-password.result}"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 resource "google_sql_user" "bbs" {
@@ -150,6 +160,7 @@ resource "google_sql_user" "bbs" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   host = "%"
   password = "${random_string.bbs-password.result}"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 resource "google_sql_user" "routing_api" {
@@ -157,6 +168,7 @@ resource "google_sql_user" "routing_api" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   host = "%"
   password = "${random_string.routing_api-password.result}"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 resource "google_sql_user" "policy_server" {
@@ -164,6 +176,7 @@ resource "google_sql_user" "policy_server" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   host = "%"
   password = "${random_string.policy_server-password.result}"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 resource "google_sql_user" "silk_controller" {
@@ -171,6 +184,7 @@ resource "google_sql_user" "silk_controller" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   host = "%"
   password = "${random_string.silk_controller-password.result}"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 resource "google_sql_user" "locket" {
@@ -178,6 +192,7 @@ resource "google_sql_user" "locket" {
   instance = "${google_sql_database_instance.cf-db-instance.name}"
   host = "%"
   password = "${random_string.locket-password.result}"
+  depends_on = ["google_sql_database_instance.cf-db-instance", "google_sql_database_instance.cf-db-failover"]
 }
 
 output "cf_db_host" {
